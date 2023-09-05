@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import TodoList from './components/TodoList';
+import AddTodo from './components/AddTodo';
 import './styles/App.css';
 
 function App() {
@@ -22,6 +24,7 @@ function App() {
             setTitle('');
         }
     }
+
     const toggleCompletion = async (id) => {
         const todo = todos.find(t => t._id === id);
         const updatedTodo = { ...todo, completed: !todo.completed };
@@ -34,23 +37,10 @@ function App() {
         }
     }
 
-
     return (
         <div>
-            <input className='textfield' value={title} onChange={e => setTitle(e.target.value)} placeholder="Add todo..." />
-            <button onClick={addTodo}>Add</button>
-            <ul>
-                {todos.map(todo => (
-                    <li key={todo._id} style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}>
-                        <input
-                            type="checkbox"
-                            checked={todo.completed}
-                            onChange={() => toggleCompletion(todo._id)}
-                        />
-                        {todo.title}
-                    </li>
-                ))}
-            </ul>
+            <AddTodo title={title} setTitle={setTitle} addTodo={addTodo} />
+            <TodoList todos={todos} toggleCompletion={toggleCompletion} />
         </div>
     );
 }

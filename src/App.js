@@ -30,7 +30,7 @@ function App() {
         const updatedTodo = { ...todo, completed: !todo.completed };
 
         try {
-            const response = await axios.put(`http://localhost:5000/api/todos/${id}`, updatedTodo);
+            const response = await axios.put(process.env.REACT_APP_API_URL + `/${id}`, updatedTodo);
             setTodos(todos.map(t => t._id === id ? response.data : t));
         } catch (error) {
             console.error("Error updating todo", error);

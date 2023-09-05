@@ -80,3 +80,6 @@ li input[type="checkbox"]:checked + span {
   color: #a0aec0;
 }
 
+.alert{
+  color: red;
+}

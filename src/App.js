@@ -22,6 +22,18 @@ function App() {
             setTitle('');
         }
     }
+    const toggleCompletion = async (id) => {
+        const todo = todos.find(t => t._id === id);
+        const updatedTodo = { ...todo, completed: !todo.completed };
+
+        try {
+            const response = await axios.put(`http://localhost:5000/api/todos/${id}`, updatedTodo);
+            setTodos(todos.map(t => t._id === id ? response.data : t));
+        } catch (error) {
+            console.error("Error updating todo", error);
+        }
+    }
+
 
     return (
         <div>
@@ -29,7 +41,14 @@ function App() {
             <button onClick={addTodo}>Add</button>
             <ul>
                 {todos.map(todo => (
-                    <li key={todo._id}>{todo.title}</li>
+                    <li key={todo._id} style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}>
+                        <input
+                            type="checkbox"
+                            checked={todo.completed}
+                            onChange={() => toggleCompletion(todo._id)}
+                        />
+                        {todo.title}
+                    </li>
                 ))}
             </ul>
         </div>

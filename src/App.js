@@ -11,13 +11,13 @@ function App() {
     }, []);
 
     const fetchTodos = async () => {
-        const response = await axios.get('http://localhost:5000/api/todos');
+        const response = await axios.get(process.env.REACT_APP_API_URL);
         setTodos(response.data);
     }
 
     const addTodo = async () => {
         if (title) {
-            const response = await axios.post('http://localhost:5000/api/todos', { title });
+            const response = await axios.post(process.env.REACT_APP_API_URL, { title });
             setTodos([...todos, response.data]);
             setTitle('');
         }

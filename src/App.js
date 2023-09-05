@@ -27,7 +27,7 @@ function App() {
                 setTitle('');
             }
         } catch (error) {
-            alert('Error adding todo: ' + error.message); 
+            setErrorMessage('Something went wrong!');
             console.error("Error adding todo:", error);
         }
     }
@@ -39,7 +39,7 @@ function App() {
         try {
             const response = await axios.put(process.env.REACT_APP_API_URL + `/${id}`, updatedTodo);
             setTodos(todos.map(todo => todo._id === id ? response.data : todo));
-            alert(errorMessage);
+            setErrorMessage('Something went wrong!');
         } catch (error) {
             setErrorMessage('Something went wrong!');
             console.error("Error updating todo", error);

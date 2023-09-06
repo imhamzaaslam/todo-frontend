@@ -5,6 +5,7 @@ import AddTodo from './components/AddTodo';
 import ErrorAlert from './components/ErrorAlert';
 import TopHeading from './components/TopHeading';
 import './styles/App.css';
+import TodoService from './services/TodoService'; // Import the ApiService
 
 function App() {
     const [todos, setTodos] = useState([]);
@@ -16,22 +17,23 @@ function App() {
     }, []);
 
     const fetchTodos = async () => {
-        const response = await axios.get(process.env.REACT_APP_API_URL);
+        const response = await TodoService.get();        
         setTodos(response.data);
     }
 
     const addTodo = async () => {
         try {
             if (title) {
-                const response = await axios.post(process.env.REACT_APP_API_URL, { title });
+                const response = await TodoService.post({ title });
                 setTodos([...todos, response.data]);
                 setTitle('');
             }
         } catch (error) {
             setErrorMessage('Something went wrong!');
             setTimeout(() => {
-                setErrorMessage("");
+                setErrorMessage(null);
             }, 5000);
+            console.error("Error adding todo:", error);
         }
     }
 
@@ -40,13 +42,15 @@ function App() {
         const updatedTodo = { ...todo, completed: !todo.completed };
 
         try {
-            const response = await axios.put(process.env.REACT_APP_API_URL + `/${id}`, updatedTodo);
-            setTodos(todos.map(todo => todo._id === id ? response.data : todo));            
+            const response = await TodoService.put(id, updatedTodo);
+            setTodos(todos.map(todo => todo._id === id ? response.data : todo));
+            
         } catch (error) {
             setErrorMessage('Something went wrong!');
             setTimeout(() => {
-                setErrorMessage("");
+                setErrorMessage(null);
             }, 5000);
+            console.error("Error updating todo", error);
         }
     }
 

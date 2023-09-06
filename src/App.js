@@ -3,6 +3,7 @@ import axios from 'axios';
 import TodoList from './components/TodoList';
 import AddTodo from './components/AddTodo';
 import ErrorAlert from './components/ErrorAlert';
+import TopHeading from './components/TopHeading';
 import './styles/App.css';
 
 function App() {
@@ -28,7 +29,9 @@ function App() {
             }
         } catch (error) {
             setErrorMessage('Something went wrong!');
-            console.error("Error adding todo:", error);
+            setTimeout(() => {
+                setErrorMessage("");
+            }, 5000);
         }
     }
 
@@ -38,16 +41,18 @@ function App() {
 
         try {
             const response = await axios.put(process.env.REACT_APP_API_URL + `/${id}`, updatedTodo);
-            setTodos(todos.map(todo => todo._id === id ? response.data : todo));
-            setErrorMessage('Something went wrong!');
+            setTodos(todos.map(todo => todo._id === id ? response.data : todo));            
         } catch (error) {
             setErrorMessage('Something went wrong!');
-            console.error("Error updating todo", error);
+            setTimeout(() => {
+                setErrorMessage("");
+            }, 5000);
         }
     }
 
     return (
-        <div>
+        <div className='container'>
+            <TopHeading />
             <ErrorAlert message={errorMessage} />
             <AddTodo title={title} setTitle={setTitle} addTodo={addTodo} />
             <TodoList todos={todos} toggleCompletion={toggleCompletion} />

@@ -3,7 +3,7 @@ import TodoItem from './TodoItem';
 
 function TodoList({ todos, toggleCompletion }) {
     return (
-        <ul>
+        <ul className='card'>
             {todos.map(todo => (
                 <TodoItem key={todo._id} todo={todo} toggleCompletion={toggleCompletion} />
             ))}

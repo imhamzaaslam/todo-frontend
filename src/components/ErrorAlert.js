@@ -4,7 +4,7 @@ function ErrorAlert({ message }) {
     if (!message) return null;
 
     return (
-        <div className="alert" >
+        <div className="container card alert error-alert bottom-margin" >
             {message}
         </div>
     );
